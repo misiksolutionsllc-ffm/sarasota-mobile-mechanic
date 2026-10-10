@@ -176,3 +176,21 @@
       .area[href] { color:inherit; text-decoration:none; }
       .area[href]:hover { border-color:var(--accent); }
       .back { display:inline-block; margin-bottom:18px; color:var(--ink-soft); font-weight:600; }
+
+.hero-book { margin:18px 0 0; }
+.hero-book a { color:var(--lime); font-weight:700; text-decoration:none; }
+.hero-book a:hover { text-decoration:underline; }
+.book { background:var(--surface); }
+.appt-form { display:grid; grid-template-columns:1fr 1fr; gap:18px; max-width:880px; background:var(--paper); border:1px solid var(--line); border-radius:var(--radius-md); padding:clamp(24px,4vw,44px); }
+.field { display:flex; flex-direction:column; gap:8px; min-width:0; }
+.field-wide { grid-column:1 / -1; }
+.field label { font-weight:700; font-size:16px; }
+.field .opt { font-weight:500; color:var(--ink-soft); }
+.field input, .field select, .field textarea { font:inherit; font-size:17px; padding:14px 16px; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface); color:var(--ink); width:100%; }
+.field textarea { resize:vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent); }
+.form-error { grid-column:1 / -1; color:var(--accent-dark); font-weight:700; margin:0; }
+.appt-form .btn { grid-column:1 / -1; justify-self:start; cursor:pointer; }
+.form-note { grid-column:1 / -1; margin:0; color:var(--ink-soft); font-size:15px; }
+.form-note a { color:inherit; }
+@media (max-width:640px){ .appt-form { grid-template-columns:1fr; } .appt-form .btn { width:100%; } }

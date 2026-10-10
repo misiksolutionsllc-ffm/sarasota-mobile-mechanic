@@ -83,6 +83,7 @@
               <a class="btn btn-primary" href="tel:+17544654655"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.78 19.78 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.78 19.78 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.62a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.28-1.28a2 2 0 0 1 2.11-.45c.84.29 1.72.5 2.62.62A2 2 0 0 1 22 16.92Z"/></svg>Call (754) 465-4655</a>
               <a class="btn btn-secondary" href="sms:+17544654655"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/></svg>Text us</a>
             </div>
+            <p class="hero-book"><a href="#book">or book an appointment &rarr;</a></p>
           </div>
           <div class="hero-photo"><img src="https://raw.githubusercontent.com/misiksolutionsllc-ffm/sarasota-mobile-mechanic/main/hero.jpg" alt="Mechanic inspecting a car engine with the hood open" /></div>
         </div>
@@ -152,6 +153,61 @@
       .faq-item p { margin:0 0 22px; color:var(--ink-soft); font-size:17px; max-width:700px; }
       .faq-item a { color:inherit; }
     </style>
+    <section class="book" id="book" aria-labelledby="book-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="book-title">Book an<br>appointment.</h2>
+          <p class="section-intro">Pick a service, date and time window — we text you back to confirm. For roadside emergencies, <a href="tel:+17544654655">call now</a> instead of waiting on a form.</p>
+        </div>
+        <form id="appt-form" class="appt-form" novalidate>
+          <div class="field"><label for="f-name">Your name</label><input id="f-name" type="text" autocomplete="name" required /></div>
+          <div class="field"><label for="f-phone">Phone number</label><input id="f-phone" type="tel" autocomplete="tel" placeholder="(___) ___-____" required /></div>
+          <div class="field"><label for="f-service">Service</label><select id="f-service" required>
+            <option value="" disabled selected>Select a service</option>
+            <option>Battery Replacement</option><option>Brake Pad Replacement</option>
+            <option>Brake Pads &amp; Rotors</option><option>Alternator Replacement</option>
+            <option>Starter Replacement</option><option>Check Engine Diagnostics</option>
+            <option>Mobile Oil Change</option><option>Serpentine Belt Replacement</option>
+            <option>Pre-Purchase Inspection</option><option>Something else</option>
+          </select></div>
+          <div class="field"><label for="f-date">Preferred date</label><input id="f-date" type="date" required /></div>
+          <div class="field"><label for="f-time">Time window</label><select id="f-time" required>
+            <option value="" disabled selected>Select a window</option>
+            <option>Morning (8 AM - 12 PM)</option><option>Midday (12 PM - 4 PM)</option>
+            <option>Evening (4 PM - 8 PM)</option>
+          </select></div>
+          <div class="field"><label for="f-vehicle">Vehicle <span class="opt">(optional)</span></label><input id="f-vehicle" type="text" placeholder="e.g. 2018 Honda Civic" /></div>
+          <div class="field field-wide"><label for="f-loc">Where should we come?</label><input id="f-loc" type="text" placeholder="Street address, city" autocomplete="street-address" required /></div>
+          <div class="field field-wide"><label for="f-notes">Notes <span class="opt">(optional)</span></label><textarea id="f-notes" rows="3" placeholder="What is going on with the car?"></textarea></div>
+          <p class="form-error" id="form-error" role="alert" hidden>Please fill in your name, phone, service, date, time window and location.</p>
+          <button class="btn btn-primary" type="submit">Send appointment request</button>
+          <p class="form-note">Tapping send opens your messaging app with the request ready — just press send. We confirm every appointment by text, usually within minutes. On a computer? Just call <a href="tel:+17544654655">(754) 465-4655</a>.</p>
+        </form>
+      </div>
+    </section>
+    <script>
+    (function(){
+      var form = document.getElementById('appt-form');
+      var dateEl = document.getElementById('f-date');
+      var err = document.getElementById('form-error');
+      dateEl.min = new Date().toISOString().split('T')[0];
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        if(!form.checkValidity()){ err.hidden = false; form.reportValidity(); return; }
+        err.hidden = true;
+        var v = function(id){ return document.getElementById(id).value.trim(); };
+        var msg = 'APPOINTMENT REQUEST - Sarasota Mobile Mechanic\n'
+          + 'Name: ' + v('f-name') + '\n'
+          + 'Phone: ' + v('f-phone') + '\n'
+          + 'Service: ' + v('f-service') + '\n'
+          + 'When: ' + v('f-date') + ', ' + v('f-time') + '\n'
+          + 'Where: ' + v('f-loc')
+          + (v('f-vehicle') ? '\nVehicle: ' + v('f-vehicle') : '')
+          + (v('f-notes') ? '\nNotes: ' + v('f-notes') : '');
+        window.location.href = 'sms:+17544654655?&body=' + encodeURIComponent(msg);
+      });
+    })();
+    </script>
     <section class="coverage" aria-labelledby="coverage-title"><div class="wrap coverage-grid"><div><h2 id="coverage-title">Serving the<br>Sarasota area.</h2><p>Mobile service at your home, workplace, or vehicle location across Sarasota and nearby communities.</p></div><div class="area-list" aria-label="Service areas"><span class="area">Sarasota</span><a class="area" href="siesta-key.html">Siesta Key</a><a class="area" href="bradenton.html">Bradenton</a><a class="area" href="venice.html">Venice</a><a class="area" href="north-port.html">North Port</a><a class="area" href="osprey.html">Osprey</a><a class="area" href="nokomis.html">Nokomis</a></div></div></section>
 
     <section class="contact" aria-labelledby="contact-title"><div class="wrap"><div class="contact-card"><div><h2 id="contact-title">Tell us what your car is doing.</h2><p>Emergency roadside dispatch is available 24/7. Scheduled mechanic work runs daily, 8:00 AM–8:00 PM.</p></div><a class="btn" href="tel:+17544654655"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.78 19.78 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.78 19.78 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.62a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.28-1.28a2 2 0 0 1 2.11-.45c.84.29 1.72.5 2.62.62A2 2 0 0 1 22 16.92Z"/></svg>(754) 465-4655</a></div></div></section>
