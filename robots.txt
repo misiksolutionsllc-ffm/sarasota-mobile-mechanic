@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://misiksolutionsllc-ffm.github.io/sarasota-mobile-mechanic/sitemap.xml
+Sitemap: https://sarasotamobilemechanic.net/sitemap.xml
