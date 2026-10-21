@@ -3,9 +3,14 @@
 import base64, hashlib, json, pathlib, subprocess
 
 D = pathlib.Path.home() / "workspace/site-deploy"
+# NOTE: hero.jpg is intentionally NOT deployed to Vercel — pages load it from
+# raw.githubusercontent.com, and its base64 (~200KB) exceeds the vercel CLI's
+# single-argument limit, so upload_file fails with "Argument list too long"
+# and create_deployment then fails with missing_files (learned 2026-10-20).
 FILES = ["index.html", "siesta-key.html", "bradenton.html", "venice.html",
          "north-port.html", "osprey.html", "nokomis.html",
-         "hero.jpg", "sitemap.xml", "robots.txt"]
+         "sitemap.xml", "robots.txt", "style.css",
+         "googleb69e50a57484eb93.html"]
 
 def call(name, args):
     cmd = ["vercel", "call-tool", "--name", name, "--arguments-json", json.dumps(args)]
