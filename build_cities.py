@@ -88,9 +88,12 @@ def area_links(current):
 
 for slug, c in CITIES.items():
     name = c["name"]
-    faq_json = [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in c["faq"]]
+    faq_items = c["faq"] + [(f"What are your hours in {name}?",
+        f"Scheduled mobile mechanic repairs run daily 8:00 AM\u20138:00 PM in {name}. Emergency roadside assistance \u2014 jump starts, car lockouts, flat tire changes and fuel delivery \u2014 is dispatched 24/7. Call {PHONE_TXT}.")]
+    faq_json = [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq_items]
+    faq_schema = json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": faq_json}, indent=2)
     faq_html = "\n".join(
-        f'        <details class="faq-item"><summary>{q}</summary><p>{a}</p></details>' for q, a in c["faq"])
+        f'        <details class="faq-item"><summary>{q}</summary><p>{a}</p></details>' for q, a in faq_items)
     page = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -118,7 +121,10 @@ for slug, c in CITIES.items():
     "areaServed": {"@type": "City", "name": name},
     "openingHoursSpecification": {"@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-      "opens": "00:00", "closes": "23:59"}}, indent=2)}
+      "opens": "08:00", "closes": "20:00"}}, indent=2)}
+  </script>
+  <script type="application/ld+json">
+  {faq_schema}
   </script>
 </head>
 <body>
