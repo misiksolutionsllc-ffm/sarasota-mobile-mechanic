@@ -7,6 +7,44 @@ BASE = "https://misiksolutionsllc-ffm.github.io/sarasota-mobile-mechanic"
 PHONE = "+17544654655"
 PHONE_TXT = "(754) 465-4655"
 
+# Agent-readable service catalog (schema.org hasOfferCatalog). Prices are the
+# on-file published ranges (pricing-and-dispatch-ops.md == site cards == GBP pack).
+def _offer(name, lo=None, hi=None, desc=None):
+    svc = {"@type": "Service", "name": name}
+    if desc:
+        svc["description"] = desc
+    o = {"@type": "Offer", "itemOffered": svc}
+    if lo is not None:
+        o["priceSpecification"] = {"@type": "PriceSpecification",
+                                   "priceCurrency": "USD",
+                                   "minPrice": lo, "maxPrice": hi}
+    return o
+
+OFFER_CATALOG = [
+    {"@type": "OfferCatalog", "name": "Emergency Roadside Assistance",
+     "itemListElement": [
+         _offer("Emergency Jump Start", 75, 100),
+         _offer("Car Lockout Service", 90, 130),
+         _offer("Flat Tire Change", 90, 120),
+         _offer("Emergency Fuel Delivery", 75, 100,
+                "Service charge for fuel delivery; the cost of the fuel itself is additional."),
+         _offer("Tow Coordination", None, None,
+                "Quoted on the spot before dispatch."),
+     ]},
+    {"@type": "OfferCatalog", "name": "Mobile Mechanic Repairs",
+     "itemListElement": [
+         _offer("Battery Replacement", 220, 300),
+         _offer("Brake Pad Replacement", 300, 420),
+         _offer("Brake Pads & Rotors", 480, 700),
+         _offer("Alternator Replacement", 480, 750),
+         _offer("Starter Replacement", 400, 650),
+         _offer("Check Engine Diagnostics", 90, 130),
+         _offer("Mobile Oil Change", 95, 140),
+         _offer("Serpentine Belt Replacement", 200, 300),
+         _offer("Pre-Purchase Inspection", 130, 180),
+     ]},
+]
+
 index = (D / "index.html").read_text(encoding="utf-8")
 css = re.search(r"<style>(.*?)</style>", index, re.S).group(1)
 
@@ -121,7 +159,8 @@ for slug, c in CITIES.items():
     "areaServed": {"@type": "City", "name": name},
     "openingHoursSpecification": {"@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-      "opens": "08:00", "closes": "20:00"}}, indent=2)}
+      "opens": "08:00", "closes": "20:00"},
+    "hasOfferCatalog": OFFER_CATALOG}, indent=2)}
   </script>
   <script type="application/ld+json">
   {faq_schema}
